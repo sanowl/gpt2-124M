@@ -3,11 +3,11 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# Define CaserlSelfAttention and MLP if not already defined
+
 class CaserlSelfAttention(nn.Module):
     def __init__(self, config):
         super().__init__()
-        # Implementation details of CaserlSelfAttention
+        
         pass
 
     def forward(self, x):
@@ -17,12 +17,17 @@ class CaserlSelfAttention(nn.Module):
 class MLP(nn.Module):
     def __init__(self, config):
         super().__init__()
-        # Implementation details of MLP
-        pass
+        self.c_fc   = nn.Linear(config.n_embd,4 *config.n_embd)
+        self.gelu   = nn.GELU(approximate='tanh') 
+        self.c_proj =  nn.Linear(4* config.n_embd, config.n_enbd)
+      
 
     def forward(self, x):
-        # Forward pass for MLP
-        pass
+      x = self.c_fc(x)
+      x = self.gelu(x)
+      x = self.c_proj(x)
+      return x
+    
 
 # Define the Block class
 class Block(nn.Module):
@@ -62,7 +67,7 @@ class GPTk(nn.Module):
         self.lm_head = nn.Linear(config.n_embd, config.vocab_size, bias=False)
     
     def forward(self, x):
-        # Implementation details of the forward pass
+      
         pass
 
 # Example instantiation of the model
